@@ -82,7 +82,7 @@ These files are provided to help users understand the input/output structure and
 
 ## WHI-related materials
 
-The `WHI_paper/` folder contains supplementary materials related to the **WHI (Wildland-Human Interface)** paper, especially the preprocessing workflow for wildland source identification.
+The `WHI/` folder contains supplementary materials related to the **WHI (Wildland-Human Interface)** paper, especially the preprocessing workflow for wildland source identification.
 
 These materials are **not part of the HPQT core algorithm**.  
 The specific WHI identification workflow can be found in the paper.
