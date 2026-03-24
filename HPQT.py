@@ -206,7 +206,7 @@ if __name__ == '__main__':
     Yearsss = 2020  #Identify the year, any number is ok
     gpkg_path = "testsome.gpkg"   # Input the base grid, Level=1,use proj "+proj=healpix +ellps=WGS84"
     gdf = gpd.read_file(gpkg_path)
-    LUCCdata = f"test.tif.0.tif"   #Input the reclassified LUCC map, include urban==1 , agriculture==2 , wildland==3. use proj "+proj=healpix +ellps=WGS84"
+    LUCCdata = f"test.tif.0.tif"   #Input the reclassified LUCC map, include urban==1 , agriculture==2 , e==3. use proj "+proj=healpix +ellps=WGS84"
     print("Processing" + LUCCdata)
     table_name = f"world{Yearsss}"
     projinfos = read_vrt_info(LUCCdata)

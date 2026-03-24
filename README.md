@@ -1,51 +1,94 @@
-# HPQT Single-Process Reference Implementation
+# HPQT (HEALPix-Quadtree)
 
-This repository provides a **single-process reference implementation** of the **HPQT (HEALPix-based Quadtree)** algorithm.
+This repository provides a **single-process implementation** of **HPQT (HEALPix-Quadtree)**.
 
-## What this repository is
+HPQT performs recursive quadtree subdivision of the Earth's surface under the **HEALPix coordinate system**, generating spatial units for spatial identification and analysis.
 
-This code is **not the WHI algorithm itself**.  
-Instead, it implements the **HPQT spatial subdivision procedure** that is used to support WHI mapping and delineation workflows.
+## Overview
 
-In our workflow, HPQT is used as the adaptive spatial partitioning framework on a HEALPix-based diamond grid. It recursively subdivides each Level-1 base unit into smaller diamond cells according to class dominance and patch-structure criteria derived from a reclassified land-use / land-cover raster.
+The program takes a Level-1 HEALPix base grid and a classified raster as input, then recursively subdivides each HEALPix diamond according to class dominance and patch structure until the stopping conditions are met or the maximum subdivision level is reached.
 
-## Relationship to WHI
+The current implementation can support analyses of **three land classes**, for example:
 
-- **HPQT**: the recursive spatial subdivision algorithm implemented here
-- **WHI**: the downstream wildland–human interface mapping framework supported by HPQT outputs
+- **1 = urban**
+- **2 = agriculture**
+- **3 = ecological space**
 
-This repository is intended to provide a **transparent, reproducible, single-process baseline implementation** of HPQT for methodological inspection and academic reproducibility.
+The output is a vector dataset of adaptively subdivided HEALPix diamond units, with class labels and subdivision levels.
 
-## Multi-process version
+## This repository
 
-A **multi-process executable release** is available separately at Zenodo:
+This repository contains the **single-process version** of HPQT.
 
-**https://zenodo.org/records/19112122**
+A packaged **multi-process executable** is available at:  
+https://zenodo.org/records/19112122
 
-The multi-process version is intended for production-scale execution and substantially faster processing of large datasets.
+## Coordinate system and raster requirement
 
-## Core idea
+This software only supports the following coordinate reference system:
 
-For each HEALPix diamond unit, the algorithm:
+```+proj=healpix +ellps=WGS84```
 
-1. Reads the corresponding raster window from the reclassified LUCC dataset.
-2. Applies a diamond-shaped mask within the bounding raster window.
-3. Computes the dominant class within the diamond.
-4. Evaluates whether the unit should be subdivided further using:
-   - a dominance threshold, and
-   - patch-area conditions based on connected blob size.
-5. Recursively splits the diamond into four sub-diamonds until:
-   - the stopping rule is met, or
-   - the maximum recursion level is reached.
+The current implementation is designed to work properly with raster data in this HEALPix projection at **30 m spatial resolution**.
 
-## Input requirements
+## Input and output
 
-### 1. Base grid
-A Level-1 HEALPix diamond grid stored as a vector file, for example:
+### Input
 
-- `testsome.gpkg`
+The program requires two main inputs:
 
-The geometry is expected to use a HEALPix CRS such as:
+1. **Base grid**
+   - A Level-1 HEALPix vector grid
 
-```text
-+proj=healpix +ellps=WGS84
+2. **Classified raster**
+   - A raster in `+proj=healpix +ellps=WGS84`
+   - Three-class coding, for example:
+     - `1` = urban
+     - `2` = agriculture
+     - `3` = ecological space
+
+### Output
+
+The program outputs a vector dataset containing the subdivided HEALPix units and their attributes, including:
+
+- `geometry`
+- `level`
+- `mode`
+
+To reduce output size, **Parquet** is used by default.  
+The generated Parquet file can be opened and analyzed in **QGIS**.
+
+## Core parameters
+
+The current implementation uses the following key parameters:
+
+- **Maximum subdivision level**: `7`
+- **Dominance threshold**: `0.75`
+- **Patch-area threshold**: `830`
+
+These parameters control whether a HEALPix unit should continue to be subdivided.
+
+## Included data
+
+This repository includes supporting data for testing and visualization, including:
+
+- an example regional LUCC raster (`.tif`)
+- an example grid extent
+- an example output file
+- a QGIS style file
+- a global base HEALPix grid
+
+These files are provided to help users understand the input/output structure and inspect the resulting HPQT units.
+
+## WHI-related materials
+
+The `WHI_paper/` folder contains supplementary materials related to the **WHI (Wildland-Human Interface)** paper, especially the preprocessing workflow for wildland source identification.
+
+These materials are **not part of the HPQT core algorithm**.  
+The specific WHI identification workflow can be found in the paper.
+
+## Citation
+
+If you use this repository, please cite the related study:
+
+[...]
