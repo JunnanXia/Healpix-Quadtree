@@ -38,9 +38,11 @@ The current implementation is designed to work properly with raster data in this
 The program requires two main inputs:
 
 1. **Base grid**
+   
    - A Level-1 HEALPix vector grid
 
 2. **Classified raster**
+   
    - A raster in `+proj=healpix +ellps=WGS84`
    - Three-class coding, for example:
      - `1` = urban
@@ -91,4 +93,12 @@ The specific WHI identification workflow can be found in the paper.
 
 If you use this repository, please cite the related study:
 
-[...]
+J. Xia, X. Kong, L. Jiao, W. Wei, L. Liu, Y. Hu, Z. Wang, M. Hong, & Y. Liu, The rising threats of global wildland–human interface revealed by a scale-adaptive approach, Proc. Natl. Acad. Sci. U.S.A. 123 (18) e2604044123, https://doi.org/10.1073/pnas.2604044123 (2026).
+
+
+
+## Additional reference (Chinese version)
+
+For a detailed description of the algorithm in Chinese, see:
+
+夏俊楠,洪梦谣,魏伟,等.中国国土空间“集聚—分散”格局演化特征及其驱动[J].中国土地科学,2025,39(07):110-123. http://dx.doi.org/10.11994/zgtdkx.20250714.140705
